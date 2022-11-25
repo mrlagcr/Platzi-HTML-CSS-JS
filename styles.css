@@ -4,3 +4,10 @@
     height: 80px;
     background-color: lightgreen;
 }
+
+#Selecciona-mascota {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center
+}
