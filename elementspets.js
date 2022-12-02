@@ -1,43 +1,98 @@
+const sectionSeleccionarAtaque = document.getElementById("selecionar-ataque")
+const sectionReiniciar = document.getElementById("Reiniciar")
+const botonMascotaJugador = document.getElementById("boton-mascotas")
+const botonFuego = document.getElementById("boton-fuego")
+const botonAgua = document.getElementById("boton-agua")
+const botonPlanta = document.getElementById("boton-planta")
+const botonReiniciar =document.getElementById("boton-reiniciar")
+
+const inputSerpinto = document.getElementById("Serpinto")
+const inputOrigato = document.getElementById("Origato")
+const inputPezcuito = document.getElementById("Pezcuito")
+const spanMascotaJugador = document.getElementById("jugador-mascota")
+const sectionSeleccionarMascota = document.getElementById("Selecciona-mascota")
+
+const spanMascotaEnemigo = document.getElementById("enemigo-mascota")
+
+const spanVidasJugador = document.getElementById("vidas-jugador")
+const spanVidasEnemigo = document.getElementById("vidas-enemigo")
+
+const sectionMensajes = document.getElementById("resultado")
+const ataquesDelJugador = document.getElementById("ataques-del-jugador")
+const ataquesDelEnemigo = document.getElementById("ataques-del-enemigo")
+
+let pets = []
 let ataqueJugador 
 let ataqueEnemigo
 let vidasJugador = 3
 let vidasEnemigo = 3
+let opcionDePets
+
+class Pets{
+     constructor (nombre, foto, vida){
+          this.nombre = nombre
+          this.foto = foto
+          this.vida = vida
+          this.ataques = []
+     }
+}
+
+let serpinto = new Pets("Serpinto", "./assets/Serpinto.jpg", 5)
+let origato = new Pets("Origato", "./assets/Origato.jpg", 5)
+let pezcuito = new Pets("Pezcuito", "./assets/pezcuito.jpg", 5)
+
+serpinto.ataques.push(
+     {nombre: "Fuego 🔥", id: "boton-fuego"},
+     {nombre: "Fuego 🔥", id: "boton-fuego"},
+     {nombre: "Fuego 🔥", id: "boton-fuego"},
+     {nombre: "Agua 🌊", id: "boton-agua"},
+     {nombre: "Planta 🌱", id: "boton-planta"},
+
+) 
+origato.ataques.push(
+     {nombre: "Planta 🌱", id: "boton-planta"},
+     {nombre: "Planta 🌱", id: "boton-planta"},
+     {nombre: "Planta 🌱", id: "boton-planta"},
+     {nombre: "Fuego 🔥", id: "boton-fuego"},
+     {nombre: "Agua 🌊", id: "boton-agua"}, 
+)
+pezcuito.ataques.push(
+     {nombre: "Agua 🌊", id: "boton-agua"},
+     {nombre: "Agua 🌊", id: "boton-agua"},
+     {nombre: "Agua 🌊", id: "boton-agua"},
+     {nombre: "Fuego 🔥", id: "boton-fuego"},
+     {nombre: "Planta 🌱", id: "boton-planta"},
+)
+
+pets.push(serpinto, origato, pezcuito)
+
+
+
 
 function iniciarJuego(){
     
-    let sectionSeleccionarAtaque = document.getElementById("selecionar-ataque")
     sectionSeleccionarAtaque.style.display = "none"
-
-    let sectionReiniciar = document.getElementById("Reiniciar")
+    pets.forEach((pets) => {
+          opcionDePets = `
+          <input type="radio" name = "mascota" id = "Serpinto" />
+          <label class="tarjeta-de-pets" for = "Serpinto" >
+              <p>Serpinto</p>
+              <img src="./assets/Serpinto.jpg" alt="Serpinto">
+          </label>
+          `
+    })
     sectionReiniciar.style.display = "none"
-
-    let botonMascotaJugador = document.getElementById("boton-mascotas")
     botonMascotaJugador.addEventListener("click", seleccionatMascotaJugador)
-
-    let botonFuego = document.getElementById("boton-fuego")
     botonFuego.addEventListener("click", ataqueFuego)
-    let botonAgua = document.getElementById("boton-agua")
     botonAgua.addEventListener("click", ataqueAgua)
-    let botonPlanta = document.getElementById("boton-planta")
     botonPlanta.addEventListener("click", ataquePlanta)
-
-    let botonReiniciar =document.getElementById("boton-reiniciar")
     botonReiniciar.addEventListener("click", reiniciarJuego)
 }
 
 function seleccionatMascotaJugador(){
    
-   let inputSerpinto = document.getElementById("Serpinto")
-   let inputOrigato = document.getElementById("Origato")
-   let inputPezcuito = document.getElementById("Pezcuito")
-   let spanMascotaJugador = document.getElementById("jugador-mascota")
-
-   let sectionSeleccionarMascota = document.getElementById("Selecciona-mascota")
     sectionSeleccionarMascota.style.display = "none"
-
-   let sectionSeleccionarAtaque = document.getElementById("selecionar-ataque")
-    sectionSeleccionarAtaque.style.display = "Block"
-
+    sectionSeleccionarAtaque.style.display = "flex"
     if(inputSerpinto.checked){
         spanMascotaJugador.innerHTML = "Serpinto"
    } else if(inputOrigato.checked){
@@ -51,8 +106,7 @@ function seleccionatMascotaJugador(){
 }
 function seleccionatMascotaEnemigo(){
      let mascotaEnemigaAleatoria = aleatorio(1,3)
-     let spanMascotaEnemigo = document.getElementById("enemigo-mascota")
-
+     
      if(mascotaEnemigaAleatoria == 1){
           spanMascotaEnemigo.innerHTML = "Serpinto"
      } else if(mascotaEnemigaAleatoria == 2){
@@ -67,11 +121,11 @@ function ataqueFuego(){
      ataqueAleatorioEnemigo ()
 }
 function ataquePlanta(){
-     ataqueJugador = "Agua"
+     ataqueJugador = "Planta"
      ataqueAleatorioEnemigo ()
 }
 function ataqueAgua(){
-     ataqueJugador = "Planta"
+     ataqueJugador = "Agua"
      ataqueAleatorioEnemigo ()
 } 
 function ataqueAleatorioEnemigo(){
@@ -90,11 +144,7 @@ function ataqueAleatorioEnemigo(){
 
 function combate(){
      
-     let spanVidasJugador = document.getElementById("vidas-jugador")
-     let spanVidasEnemigo = document.getElementById("vidas-enemigo")
-
      if(ataqueEnemigo == ataqueJugador){
-          crearMensaje("Empate")
      } else if(ataqueJugador == "Fuego" && ataqueEnemigo == "Planta") {
           crearMensaje("Ganaste")
           vidasEnemigo--
@@ -128,29 +178,29 @@ function revisarVidas(){
 }
 
 function crearMensaje (resultado){
-     let sectionMensajes = document.getElementById("Mensajes")
+    
 
-     let parrafo = document.createElement("p")
-     parrafo.innerHTML = "Tu mascota ataco con " + ataqueJugador + ", la mascota del enemigo ataco con " + ataqueEnemigo + "- " + resultado, "." 
+     let nuevoAtaqueDelJugador = document.createElement("p")
+     let nuevoAtaqueDelEnemigo = document.createElement("p")
 
-     sectionMensajes.appendChild(parrafo)
+     sectionMensajes.innerHTML = resultado
+     nuevoAtaqueDelJugador.innerHTML = ataqueJugador
+     nuevoAtaqueDelEnemigo.innerHTML = ataqueEnemigo
+
+     ataquesDelJugador.appendChild(nuevoAtaqueDelJugador)
+     ataquesDelEnemigo.appendChild(nuevoAtaqueDelEnemigo)
 }
 
 function crearMensajeFinal (resultadoFinal){
-     let sectionMensajes = document.getElementById("Mensajes")
+     
+     sectionMensajes.innerHTML = resultadoFinal
 
-     let parrafo = document.createElement("p")
-     parrafo.innerHTML = resultadoFinal
-     sectionMensajes.appendChild(parrafo)
-
-     let botonFuego = document.getElementById("boton-fuego")
      botonFuego.disabled = true
-     let botonAgua = document.getElementById("boton-agua")
+     
      botonAgua.disabled = true
-     let botonPlanta = document.getElementById("boton-planta")
+     
      botonPlanta.disabled = true
 
-     let sectionReiniciar = document.getElementById("Reiniciar")
      sectionReiniciar.style.display = "Block"
 
 }
